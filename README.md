@@ -1,6 +1,6 @@
 # whitle-container
 
-whistle inside the container
+Dockerizing whistle.
 
 ## start whistle
 
@@ -25,10 +25,18 @@ docker exec -it whistle /bin/bash
 docker  build . -t jiewei/whistle-container:1.0.0-alpha
 ```
 
-<!-- ## 常见问题
+## 常见问题
+
+端口被防火墙拦截了？
+
+```sh
+# 注意替换 $port
+firewall-cmd --zone=public --add-port=$port/tcp --permanent
+```
 
 [To expose the container's port on your localhost's port](https://github.com/wsargent/docker-cheat-sheet#exposing-ports):
 
 ```sh
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' whistle | { read ip; iptables -t nat -A DOCKER -p tcp --dport 8899 -j DNAT --to-destination $ip:8899 ; echo ip=$ip}
-``` -->
+# 注意替换 $port
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' whistle | { read ip; iptables -t nat -A DOCKER -p tcp --dport $port -j DNAT --to-destination $ip:8899 ; echo ip=$ip}
+```
